@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${imovel.id} ? 'Editar Imóvel' : 'Novo Imóvel'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 th:text="${imovel.id} ? 'Editar Imóvel' : 'Novo Imóvel'"></h1>
+
+        <form th:action="@{/imoveis}" th:object="${imovel}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">CEP</label>
+                    <input type="text" class="form-control" th:field="*{CEP}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Bairro</label>
+                    <input type="text" class="form-control" th:field="*{bairro}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Endereço</label>
+                    <input type="text" class="form-control" th:field="*{endereco}" required>
+                </div>
+                <div class="col-md-2 mt-3">
+                    <label class="form-label">Número</label>
+                    <input type="text" class="form-control" th:field="*{numero}" required>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <label class="form-label">Valor do Aluguel</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{valorDeAluguel}" required>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <label class="form-label">Status do Imóvel</label>
+                    <select class="form-select" th:field="*{statusImovel}">
+                        <option th:each="status : ${T(com.imobiliaria.locacao.enums.StatusImovel).values()}"
+                                th:value="${status}"
+                                th:text="${status}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2 mt-3">
+                    <label class="form-label">Quartos</label>
+                    <input type="number" class="form-control" th:field="*{quartos}" required>
+                </div>
+                <div class="col-md-2 mt-3">
+                    <label class="form-label">Banheiros</label>
+                    <input type="number" class="form-control" th:field="*{banheiros}" required>
+                </div>
+                <div class="col-md-2 mt-3">
+                    <label class="form-label">Área (m²)</label>
+                    <input type="number" step="0.1" class="form-control" th:field="*{area}" required>
+                </div>
+                <div class="col-12 mt-3">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-control" th:field="*{observacoes}" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a th:href="@{/imoveis}" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
