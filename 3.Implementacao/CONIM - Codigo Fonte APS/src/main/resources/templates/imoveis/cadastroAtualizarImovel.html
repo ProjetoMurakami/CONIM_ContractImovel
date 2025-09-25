@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pesquisa de Imóveis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- Navbar igual ao template anterior -->
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Imóveis Cadastrados</h1>
+            <a th:href="@{/imoveis/novo}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Novo Imóvel
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Filtros de Pesquisa</h5>
+            </div>
+            <div class="card-body">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label for="endereco" class="form-label">Endereço</label>
+                        <input type="text" class="form-control" id="endereco" placeholder="Digite o endereço">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo">
+                            <option selected>Todos</option>
+                            <option>Casa</option>
+                            <option>Apartamento</option>
+                            <option>Comercial</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status">
+                            <option selected>Todos</option>
+                            <option>Disponível</option>
+                            <option>Alugado</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Pesquisar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Endereço</th>
+                                <th>Tipo</th>
+                                <th>Quartos</th>
+                                <th>Valor Aluguel</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="imovel : ${imoveis}">
+                                <td th:text="${imovel.id}"></td>
+                                <td th:text="${imovel.endereco}"></td>
+                                <td th:text="${imovel.tipo}"></td>
+                                <td th:text="${imovel.quartos}"></td>
+                                <td th:text="${#numbers.formatCurrency(imovel.valorAluguel)}"></td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${imovel.disponivel} ? 'bg-success' : 'bg-secondary'"
+                                          th:text="${imovel.disponivel} ? 'Disponível' : 'Alugado'">
+                                    </span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/imoveis/editar/{id}(id=${imovel.id})}" 
+                                       class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a th:href="@{/imoveis/excluir/{id}(id=${imovel.id})}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir este imóvel?')">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
